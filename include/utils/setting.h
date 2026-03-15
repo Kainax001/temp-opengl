@@ -1,0 +1,26 @@
+#ifndef SETTING_H
+#define SETTING_H
+
+#include <glad/glad.h>
+#include <glm/glm.hpp>
+
+class Setting 
+{
+    public :
+        Setting();
+        void setRenderdistance(float newzNear, float newzFar);
+        void setViewAngle(float newviewAngle);
+        void setWindowsize(int newSCR_WIDTH, int newSCR_HEIGHT);
+        
+        int getAspect();
+        float getRadian();
+    
+    private :
+        float zNear;
+        float zFar;
+        float viewAngle;
+        int SCR_WIDTH;
+        int SCR_HEIGHT;
+};
+
+#endif
