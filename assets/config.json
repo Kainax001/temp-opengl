@@ -1,6 +1,6 @@
 {
-    "SCR_HEIGHT": 600,
-    "SCR_WIDTH": 800,
+    "SCR_HEIGHT": 900,
+    "SCR_WIDTH": 1600,
     "viewAngle": 45.0,
     "zFar": 100.0,
     "zNear": 0.10000000149011612

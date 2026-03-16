@@ -19,6 +19,8 @@ class Setting
         float getRadian();
         float getZNear();
         float getZFar();
+        int getWindowWidth();
+        int getWindowHeight();
     
     private :
         float zNear;

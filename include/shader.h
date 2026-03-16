@@ -23,6 +23,8 @@ public:
     void setMat3(const std::string &name, const glm::mat3 &mat) const;
     void setMat4(const std::string &name, const glm::mat4 &mat) const;
 
+    GLuint getID() const;
+
 private:
     GLuint ID;
     void checkCompileErrors(unsigned int shader, std::string type);

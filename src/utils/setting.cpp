@@ -10,7 +10,7 @@ bool isFileExists(std::string path) {
     return file.good(); 
 }
 
-Setting::Setting() : zNear(0.1f), zFar(100.0f), viewAngle(45.0f), SCR_WIDTH(800), SCR_HEIGHT(600)
+Setting::Setting() : zNear(0.1f), zFar(100.0f), viewAngle(45.0f), SCR_WIDTH(1600), SCR_HEIGHT(900)
 {
     // initialize
 }
@@ -46,8 +46,8 @@ void Setting::loadConfig()
             zNear      = jsonData.value("zNear", 0.1f);
             zFar       = jsonData.value("zFar", 100.0f);
             viewAngle  = jsonData.value("viewAngle", 45.0f);
-            SCR_WIDTH  = jsonData.value("SCR_WIDTH", 800);
-            SCR_HEIGHT = jsonData.value("SCR_HEIGHT", 600);
+            SCR_WIDTH  = jsonData.value("SCR_WIDTH", 1600);
+            SCR_HEIGHT = jsonData.value("SCR_HEIGHT", 900);
             
             std::cout << "[Setting] config.json load complete!\n";
         } 
@@ -89,3 +89,5 @@ float Setting::getAspect(){ return (float)SCR_WIDTH / (float)SCR_HEIGHT; }
 float Setting::getRadian() { return glm::radians(viewAngle); }
 float Setting::getZNear() { return zNear; }
 float Setting::getZFar() { return zFar; }
+int Setting::getWindowWidth() { return SCR_WIDTH; }
+int Setting::getWindowHeight() { return SCR_HEIGHT; }
