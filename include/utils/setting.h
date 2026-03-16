@@ -12,8 +12,13 @@ class Setting
         void setViewAngle(float newviewAngle);
         void setWindowsize(int newSCR_WIDTH, int newSCR_HEIGHT);
         
-        int getAspect();
+        void loadConfig();
+        void setConfig();
+
+        float getAspect();
         float getRadian();
+        float getZNear();
+        float getZFar();
     
     private :
         float zNear;

@@ -5,6 +5,7 @@
     "glfw3",
     "glm",
     "assimp",
+    "nlohmann-json",
     {
       "name": "glad",
       "features": [
