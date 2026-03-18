@@ -24,6 +24,7 @@ find_package(OpenGL REQUIRED)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/include/buffers)
 include_directories(${CMAKE_SOURCE_DIR}/include/utils)
+include_directories(${STB_INCLUDE_DIRS})
 
 # ==============================================================================
 # [SECTION 4] Source Files Collection

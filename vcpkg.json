@@ -6,6 +6,7 @@
     "glm",
     "assimp",
     "nlohmann-json",
+    "stb",
     {
       "name": "glad",
       "features": [
