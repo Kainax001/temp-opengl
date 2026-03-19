@@ -21,6 +21,7 @@ class Setting
         float getZFar();
         int getWindowWidth();
         int getWindowHeight();
+        int canResize();
     
     private :
         float zNear;
@@ -28,6 +29,7 @@ class Setting
         float viewAngle;
         int SCR_WIDTH;
         int SCR_HEIGHT;
+        int reSizable;
 };
 
 #endif

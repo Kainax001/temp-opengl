@@ -10,7 +10,7 @@ bool isFileExists(std::string path) {
     return file.good(); 
 }
 
-Setting::Setting() : zNear(0.1f), zFar(100.0f), viewAngle(45.0f), SCR_WIDTH(1600), SCR_HEIGHT(900)
+Setting::Setting() : zNear(0.1f), zFar(100.0f), viewAngle(45.0f), SCR_WIDTH(1600), SCR_HEIGHT(900), reSizable(GL_FALSE)
 {
     // initialize
 }
@@ -48,6 +48,7 @@ void Setting::loadConfig()
             viewAngle  = jsonData.value("viewAngle", 45.0f);
             SCR_WIDTH  = jsonData.value("SCR_WIDTH", 1600);
             SCR_HEIGHT = jsonData.value("SCR_HEIGHT", 900);
+            reSizable  = jsonData.value("reSizable", GL_FALSE);
             
             std::cout << "[Setting] config.json load complete!\n";
         } 
@@ -74,6 +75,7 @@ void Setting::setConfig()
     jsonData["viewAngle"]  = viewAngle;
     jsonData["SCR_WIDTH"]  = SCR_WIDTH;
     jsonData["SCR_HEIGHT"] = SCR_HEIGHT;
+    jsonData["reSizable"] = reSizable;
 
     std::ofstream file("assets/config.json");
     if (file.is_open()) {
@@ -91,3 +93,4 @@ float Setting::getZNear() { return zNear; }
 float Setting::getZFar() { return zFar; }
 int Setting::getWindowWidth() { return SCR_WIDTH; }
 int Setting::getWindowHeight() { return SCR_HEIGHT; }
+int Setting::canResize() { return reSizable; }
