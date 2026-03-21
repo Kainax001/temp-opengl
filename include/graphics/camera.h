@@ -12,6 +12,7 @@ class Camera {
         glm::mat4 getViewMatrix() const;
 
         void update(const KeyboardState& kbd, const MouseState& mouse, float deltaTime);
+        glm::vec3 getPos();
 
     private:
         void updateCameraVectors();

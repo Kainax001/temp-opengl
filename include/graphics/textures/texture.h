@@ -8,11 +8,7 @@
 
 class Texture
 {
-public:
-	GLuint ID;
-	GLenum type;
-	Texture(const char* image, GLenum texType, GLenum slot, GLenum format, GLenum pixelType);
-
+	public:
 	// Assigns a texture unit to a texture
 	void texUnit(Shader& shader, const char* uniform, GLuint unit);
 	// Binds a texture
@@ -21,5 +17,20 @@ public:
 	void Unbind();
 	// Deletes a texture
 	void Delete();
+
+	const char* getType() const;
+
+	protected :
+	GLuint ID;
+	const char* type;
+	GLuint unit;
+	GLenum texTarget;
 };
+
+class Texture2D : public Texture
+{
+	public :
+	Texture2D(const char* image, const char* texType, GLuint slot, GLenum format = 0, GLenum pixelType = GL_UNSIGNED_BYTE);
+};
+
 #endif

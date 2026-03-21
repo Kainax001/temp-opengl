@@ -8,11 +8,11 @@
 #include "inputmanager.h"
 
 class ColorControl {
-public:
+    public:
     ColorControl(GLFWwindow* window, InputManager* inputManager);
     void changeColor();
 
-private:
+    private:
     GLFWwindow* window;
     InputManager* inputManager;
 };

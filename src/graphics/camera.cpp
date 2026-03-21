@@ -10,6 +10,11 @@ glm::mat4 Camera::getViewMatrix() const
     return glm::lookAt(pos, pos + front, up);
 }
 
+glm::vec3 Camera::getPos()
+{
+    return pos;
+}
+
 void Camera::update(const KeyboardState& kbd, const MouseState& mouse, float deltaTime) 
 {
     float velocity = speed * deltaTime;
