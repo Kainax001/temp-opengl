@@ -1,93 +1,94 @@
 #include "setting.h"
 
-#include <nlohmann/json.hpp>
+#include <rapidjson/document.h>
+#include <rapidjson/prettywriter.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/istreamwrapper.h>
+#include <rapidjson/ostreamwrapper.h>
 #include <iostream>
 #include <fstream>
 
-//Helper method
 bool isFileExists(std::string path) {
     std::ifstream file(path.c_str());
-    return file.good(); 
+    return file.good();
 }
 
-Setting::Setting() : zNear(0.1f), zFar(100.0f), viewAngle(45.0f), SCR_WIDTH(1600), SCR_HEIGHT(900), reSizable(GL_FALSE)
+Setting::Setting() : zNear(0.1f), zFar(100.0f), viewAngle(45.0f), SCR_WIDTH(1600), SCR_HEIGHT(900), reSizable(GL_FALSE) 
 {
-    // initialize
+    // Initialize config
 }
 
-// edit config value
-void Setting::setRenderdistance(float newzNear, float newzFar)
+void Setting::setRenderdistance(float newzNear, float newzFar) 
 {
     zNear = newzNear;
     zFar = newzFar;
 }
 
-void Setting::setViewAngle(float newviewAngle)
+void Setting::setViewAngle(float newviewAngle) 
 {
     viewAngle = newviewAngle;
 }
 
-void Setting::setWindowsize(int newSCR_WIDTH, int newSCR_HEIGHT)
+void Setting::setWindowsize(int newSCR_WIDTH, int newSCR_HEIGHT) 
 {
     SCR_WIDTH = newSCR_WIDTH;
     SCR_HEIGHT = newSCR_HEIGHT;
 }
 
-// edit and load config.json
-void Setting::loadConfig()
-{
+void Setting::loadConfig() {
     if (isFileExists("assets/config.json")) {
-        std::ifstream file("assets/config.json");
-        nlohmann::json jsonData;
+        std::ifstream ifs("assets/config.json");
+        rapidjson::IStreamWrapper isw(ifs);
 
-        try {
-            file >> jsonData;
-            
-            zNear      = jsonData.value("zNear", 0.1f);
-            zFar       = jsonData.value("zFar", 100.0f);
-            viewAngle  = jsonData.value("viewAngle", 45.0f);
-            SCR_WIDTH  = jsonData.value("SCR_WIDTH", 1600);
-            SCR_HEIGHT = jsonData.value("SCR_HEIGHT", 900);
-            reSizable  = jsonData.value("reSizable", GL_FALSE);
-            
+        rapidjson::Document d;
+        d.ParseStream(isw);
+
+        if (!d.HasParseError()) {
+            if (d.HasMember("zNear") && d["zNear"].IsFloat()) zNear = d["zNear"].GetFloat();
+            if (d.HasMember("zFar") && d["zFar"].IsFloat()) zFar = d["zFar"].GetFloat();
+            if (d.HasMember("viewAngle") && d["viewAngle"].IsFloat()) viewAngle = d["viewAngle"].GetFloat();
+            if (d.HasMember("SCR_WIDTH") && d["SCR_WIDTH"].IsInt()) SCR_WIDTH = d["SCR_WIDTH"].GetInt();
+            if (d.HasMember("SCR_HEIGHT") && d["SCR_HEIGHT"].IsInt()) SCR_HEIGHT = d["SCR_HEIGHT"].GetInt();
+            if (d.HasMember("reSizable") && d["reSizable"].IsInt()) reSizable = d["reSizable"].GetInt();
+
             std::cout << "[Setting] config.json load complete!\n";
-        } 
-        catch (nlohmann::json::parse_error& e) {
-            std::cout << "[Setting] config.json has been spoiled, intialize setting.\n";
-            
-            setConfig(); 
+        } else {
+            std::cout << "[Setting] config.json parse error, initializing.\n";
+            saveConfig();
         }
-
-        file.close();
-    } 
-    else {
+    } else {
         std::cout << "[Setting] config.json doesn't exist. Create new config.json\n";
-        setConfig(); 
+        saveConfig();
     }
 }
 
-void Setting::setConfig()
-{
-    nlohmann::json jsonData;
-    
-    jsonData["zNear"]      = zNear;
-    jsonData["zFar"]       = zFar;
-    jsonData["viewAngle"]  = viewAngle;
-    jsonData["SCR_WIDTH"]  = SCR_WIDTH;
-    jsonData["SCR_HEIGHT"] = SCR_HEIGHT;
-    jsonData["reSizable"] = reSizable;
+void Setting::saveConfig() {
+    rapidjson::Document d;
+    d.SetObject();
+    rapidjson::Document::AllocatorType& allocator = d.GetAllocator();
 
-    std::ofstream file("assets/config.json");
-    if (file.is_open()) {
-        file << jsonData.dump(4);
-        file.close();
+    d.AddMember("zNear", zNear, allocator);
+    d.AddMember("zFar", zFar, allocator);
+    d.AddMember("viewAngle", viewAngle, allocator);
+    d.AddMember("SCR_WIDTH", SCR_WIDTH, allocator);
+    d.AddMember("SCR_HEIGHT", SCR_HEIGHT, allocator);
+    d.AddMember("reSizable", reSizable, allocator);
+
+    std::ofstream ofs("assets/config.json");
+    if (ofs.is_open()) {
+        rapidjson::OStreamWrapper osw(ofs);
+        rapidjson::PrettyWriter<rapidjson::OStreamWrapper> writer(osw);
+
+        writer.SetIndent(' ', 4); 
+        d.Accept(writer);
+
         std::cout << "[Setting] config.json saved!\n";
     } else {
-        std::cout << "[EROOR] Can't save config.json. Check asset folder does exist.\n";
+        std::cout << "[ERROR] Can't save config.json. Check folder existence.\n";
     }
 }
 
-float Setting::getAspect(){ return (float)SCR_WIDTH / (float)SCR_HEIGHT; }
+float Setting::getAspect() { return (float)SCR_WIDTH / (float)SCR_HEIGHT; }
 float Setting::getRadian() { return glm::radians(viewAngle); }
 float Setting::getZNear() { return zNear; }
 float Setting::getZFar() { return zFar; }

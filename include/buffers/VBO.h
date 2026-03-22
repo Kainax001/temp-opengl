@@ -12,6 +12,7 @@ struct Vertex
 	glm::vec3 color;
 	glm::vec2 texUV;
 };
+
 class VBO 
 {
     public:

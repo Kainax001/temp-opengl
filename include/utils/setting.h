@@ -13,7 +13,7 @@ class Setting
         void setWindowsize(int newSCR_WIDTH, int newSCR_HEIGHT);
         
         void loadConfig();
-        void setConfig();
+        void saveConfig();
 
         float getAspect();
         float getRadian();
