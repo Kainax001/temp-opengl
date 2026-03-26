@@ -1,10 +1,7 @@
 #ifndef COLORCONTROL_H
 #define COLORCONTROL_H
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
-
+// Deleted overlapped headerfile
 #include "inputmanager.h"
 
 class ColorControl {

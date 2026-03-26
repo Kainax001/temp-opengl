@@ -7,11 +7,11 @@
 
 class Camera {
     public:
-        Camera(glm::vec3 position);
+        Camera(glm::vec3 position, InputManager* inputManager);
 
         glm::mat4 getViewMatrix() const;
 
-        void update(const KeyboardState& kbd, const MouseState& mouse, float deltaTime);
+        void update(float deltaTime);
         glm::vec3 getPos();
 
     private:
@@ -27,6 +27,9 @@ class Camera {
         float pitch;
         float speed;
         float sensitivity;
+
+        InputManager* inputManager;
+        GLFWwindow* window;
 };
 
 #endif

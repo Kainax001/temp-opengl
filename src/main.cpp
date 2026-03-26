@@ -65,7 +65,7 @@ int main() {
     Shader lightShader("assets/shaders/light.vert", "assets/shaders/light.frag");
     InputManager ourInputmanager(window);
     ColorControl ourColorcontroler(window, &ourInputmanager);
-    Camera ourCamera(glm::vec3(0.0f, 0.5f, 3.0f));
+    Camera ourCamera(glm::vec3(0.0f, 0.5f, 3.0f), &ourInputmanager);
 
     std::string parentDir = std::filesystem::current_path().parent_path().string();
     std::string texPath = "/temp-opengl/assets/textures/test.png";
@@ -112,7 +112,7 @@ int main() {
         ourColorcontroler.changeColor();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        ourCamera.update(ourInputmanager.getKeyboard(), ourInputmanager.getMouse(), deltaTime);
+        ourCamera.update(deltaTime);
 
         glm::mat4 view = ourCamera.getViewMatrix();
         glm::mat4 projection = glm::perspective(ourSetting.getRadian(), ourSetting.getAspect(), ourSetting.getZNear(), ourSetting.getZFar());

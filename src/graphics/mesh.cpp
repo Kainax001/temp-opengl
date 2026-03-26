@@ -6,11 +6,13 @@ Mesh::Mesh(std::vector <Vertex>& vertices, std::vector <GLuint>& indices, std::v
 	Mesh::indices = indices;
 	Mesh::textures = textures;
 
-    VAO.Bind();
     VBO VBO(vertices);
     EBO EBO(indices);
 
-	// Links VBO attributes such as coordinates and colors to VAO
+	VAO.Bind();
+	EBO.Bind();
+
+	// Links VBO attributes such as coordinates and colors, normal to VAO
 	VAO.LinkAttrib(VBO, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, position));
     VAO.LinkAttrib(VBO, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, color));
     VAO.LinkAttrib(VBO, 2, 2, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, texUV));
@@ -29,6 +31,7 @@ void Mesh::Draw(Shader& shader, Camera& camera)
     unsigned int numDiffuse = 0;
 	unsigned int numSpecular = 0;
 
+	// Binds texture to each slot
     for (unsigned int i = 0; i < textures.size(); i++)
 	{
 		std::string num;
