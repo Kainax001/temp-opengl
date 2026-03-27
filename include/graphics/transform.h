@@ -6,40 +6,44 @@
 #include <math.h>
 #include "inputmanager.h"
 
+struct TransformData
+{
+    glm::vec3 pos   = glm::vec3(0.0f);
+    glm::vec3 front = glm::vec3(0.0f, 0.0f, 1.0f);
+    glm::vec3 right = glm::vec3(1.0f, 0.0f, 0.0f);
+    glm::vec3 up    = glm::vec3(0.0f, 1.0f, 0.0f);
+
+    glm::vec3 scale = glm::vec3(1.0f);
+
+    float yaw   = 0.0f;
+    float pitch = 0.0f;
+    float roll  = 0.0f;
+};
+
 class Transform
 {
     public :
-    Transform(GLFWwindow* window, InputManager* inputManager);
+    Transform(InputManager* inputManager);
     ~Transform();
 
     void update(float deltaTime);
 
     glm::mat4 getModelMatrix();
-    void rotateObject();
-    void translateObject();
-    void scaleObject();
+    void rotateObject(glm::vec3 degrees);
+    void translateObject(glm::vec3 newPos);
+    void scaleObject(float addScale);
 
     private :
     void updateObjectVectors();
     void updateModelMatrix();
 
-    glm::vec3 pos;
-    glm::vec3 front;
-    glm::vec3 right;
-    glm::vec3 up;
-
-    glm::vec3 scale;
-
-    float yaw;
-    float pitch;
-    float roll;
+    TransformData statusInfo;
 
     glm::mat4 modelMatrix;
     float speed;
     float sensitivity;
 
     InputManager* inputManager;
-    GLFWwindow* window;
 };
 
 #endif TRANSFORM_H
