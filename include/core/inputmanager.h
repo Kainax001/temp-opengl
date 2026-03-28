@@ -16,6 +16,8 @@ struct MouseState {
     double deltaX = 0.0;
     double deltaY = 0.0;
     bool firstMouse = true;
+    bool buttons[8] = { false };
+    bool isDown(int button) const;
 };
 
 class InputManager 
@@ -25,6 +27,7 @@ class InputManager
         const KeyboardState& getKeyboard() const;
         const MouseState& getMouse() const;
         bool isKeyPressed(int key) const;
+        bool isMouseButtonPressed(int button) const;
         void update();
 
     private:
@@ -33,9 +36,11 @@ class InputManager
         MouseState mouse;
 
         static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-        static void mouseCallback(GLFWwindow* window, double xpos, double ypos);
+        static void mouseMoveCallback(GLFWwindow* window, double xpos, double ypos);
+        static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
         void handleKey(int key, int scancode, int action, int mods);
-        void handleMouse(double xpos, double ypos);
+        void handleMouseMove(double xpos, double ypos);
+        void handleMouseButton(int button, int action, int mods);
 };
 
 #endif

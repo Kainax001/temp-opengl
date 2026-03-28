@@ -12,7 +12,8 @@ class Mesh
 {
     public :
     Mesh(std::vector <Vertex>& vertices, std::vector <GLuint>& indices, std::vector <Texture2D>& textures);
-    void Draw(Shader& shader, Camera& camera);
+    ~Mesh();
+    void Draw(Shader& shader);
 
     private :
     VAO VAO;

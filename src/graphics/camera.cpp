@@ -30,11 +30,13 @@ void Camera::update(float deltaTime)
     if (inputManager->isKeyPressed(GLFW_KEY_UP) && speed < 4.0f) speed += 0.2f;
     if (inputManager->isKeyPressed(GLFW_KEY_DOWN) && speed > 0.5f) speed -= 0.2f;
 
-    yaw += (float)inputManager->getMouse().deltaX * sensitivity;
+    if (!inputManager->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
+        yaw += (float)inputManager->getMouse().deltaX * sensitivity;
     pitch += (float)inputManager->getMouse().deltaY * sensitivity;
     
     if (pitch > 89.0f) pitch = 89.0f;
     if (pitch < -89.0f) pitch = -89.0f;
+    }
 
     updateCameraVectors();
 }

@@ -22,8 +22,9 @@ Mesh::Mesh(std::vector <Vertex>& vertices, std::vector <GLuint>& indices, std::v
 	VAO.Unbind();
 	EBO.Unbind();
 }
+Mesh::~Mesh() {}
 
-void Mesh::Draw(Shader& shader, Camera& camera)
+void Mesh::Draw(Shader& shader)
 {
     shader.use();
     VAO.Bind();
@@ -44,8 +45,6 @@ void Mesh::Draw(Shader& shader, Camera& camera)
 		textures[i].texUnit(shader, (type + num).c_str(), i);
 		textures[i].Bind();
 	}
-	// Take care of the camera Matrix
-	shader.setVec3("camPos", camera.getPos());
 	// Draw the actual mesh
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     VAO.Unbind();

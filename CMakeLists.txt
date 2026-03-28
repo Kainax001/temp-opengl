@@ -28,6 +28,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include/utils)
 include_directories(${CMAKE_SOURCE_DIR}/include/graphics)
 include_directories(${CMAKE_SOURCE_DIR}/include/graphics/textures)
 include_directories(${CMAKE_SOURCE_DIR}/include/core)
+include_directories(${CMAKE_SOURCE_DIR}/include/scene)
 include_directories(${STB_INCLUDE_DIRS})
 
 # ==============================================================================

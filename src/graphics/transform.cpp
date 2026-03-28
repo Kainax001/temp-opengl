@@ -1,6 +1,6 @@
 #include "transform.h"
 
-Transform::Transform(InputManager* inputManager) 
+Transform::Transform(InputManager* inputManager) : speed(0.2f), sensitivity(0.1f)
 {
     // Initialize
     this->inputManager = inputManager;
@@ -19,7 +19,7 @@ void Transform::update(float deltaTime)
     if(inputManager->isKeyPressed(GLFW_KEY_N)) statusInfo.pos += statusInfo.up    * velocity;
     if(inputManager->isKeyPressed(GLFW_KEY_M)) statusInfo.pos -= statusInfo.up    * velocity;
 
-    if(inputManager->isKeyPressed(GLFW_MOUSE_BUTTON_LEFT)) {
+    if(inputManager->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
         statusInfo.yaw     += (float)inputManager->getMouse().deltaX * sensitivity;
         statusInfo.pitch   += (float)inputManager->getMouse().deltaY * sensitivity;
 
