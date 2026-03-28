@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <math.h>
+
 #include "inputmanager.h"
 
 struct TransformData
@@ -29,6 +30,7 @@ class Transform
     void update(float deltaTime);
 
     glm::mat4 getModelMatrix();
+    glm::vec3 getPos();
     void rotateObject(glm::vec3 degrees);
     void translateObject(glm::vec3 newPos);
     void scaleObject(float addScale);
@@ -46,4 +48,4 @@ class Transform
     InputManager* inputManager;
 };
 
-#endif TRANSFORM_H
+#endif

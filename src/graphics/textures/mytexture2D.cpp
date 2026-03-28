@@ -1,6 +1,6 @@
-#include "Texture.h"
+#include "mytexture.h"
 
-Texture2D::Texture2D(const char* image, const char* texType, GLuint slot, GLenum format, GLenum pixelType)
+Texture2D::Texture2D(const char* image, std::string texType, GLuint slot, GLenum format, GLenum pixelType)
 {
     type = texType;
     // Sets target's form

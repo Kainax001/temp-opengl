@@ -8,6 +8,7 @@ Transform::Transform(InputManager* inputManager) : speed(0.2f), sensitivity(0.1f
 Transform::~Transform() {}
 
 glm::mat4 Transform::getModelMatrix() { return modelMatrix; }
+glm::vec3 Transform::getPos() { return statusInfo.pos; }
 
 void Transform::update(float deltaTime)
 {

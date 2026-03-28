@@ -1,10 +1,11 @@
 #ifndef TEXTURE_CLASS_H
 #define TEXTURE_CLASS_H
 
-#include<glad/glad.h>
-#include<stb_image.h>
+#include <string>
+#include <glad/glad.h>
+#include <stb_image.h>
 
-#include"shader.h"
+#include "shader.h"
 
 class Texture
 {
@@ -18,11 +19,11 @@ class Texture
 	// Deletes a texture
 	void Delete();
 
-	const char* getType() const;
+	std::string getType() const;
 
 	protected :
 	GLuint ID;
-	const char* type;
+	std::string type;
 	GLuint unit;
 	GLenum texTarget;
 };
@@ -30,7 +31,7 @@ class Texture
 class Texture2D : public Texture
 {
 	public :
-	Texture2D(const char* image, const char* texType, GLuint slot, GLenum format = 0, GLenum pixelType = GL_UNSIGNED_BYTE);
+	Texture2D(const char* image, std::string texType, GLuint slot, GLenum format = 0, GLenum pixelType = GL_UNSIGNED_BYTE);
 };
 
 #endif

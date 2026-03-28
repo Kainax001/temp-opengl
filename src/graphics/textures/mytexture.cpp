@@ -1,7 +1,7 @@
-#include "texture.h"
+#include "mytexture.h"
 #include <iostream>
 
-const char* Texture::getType() const { return type; }
+std::string Texture::getType() const { return type; }
 
 void Texture::texUnit(Shader& shader, const char* uniform, GLuint unit)
 {
