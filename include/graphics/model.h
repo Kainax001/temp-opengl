@@ -8,7 +8,7 @@
 #include <assimp/postprocess.h>
 
 #include "mesh.h"
-#include "texture.h"
+#include "mytexture.h"
 
 class Model
 {

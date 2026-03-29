@@ -11,6 +11,7 @@
 #include "mesh.h"
 #include "entity.h"
 #include "UBO.h"
+#include "model.h"
 
 class Application
 {
@@ -40,6 +41,7 @@ class Application
     Mesh* lightMesh;
     Entity* mainCube;
     Entity* lightCube;
+    Model* testModel;
 };
 
 #endif

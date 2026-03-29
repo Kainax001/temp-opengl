@@ -68,7 +68,7 @@ GLuint lightIndices[] =
 Application::Application() : 
     window(nullptr), inputManager(nullptr), colorController(nullptr), camera(nullptr),
     defaultShader(nullptr), lightShader(nullptr), matricesUBO(nullptr),
-    floorMesh(nullptr), lightMesh(nullptr), mainCube(nullptr), lightCube(nullptr) 
+    floorMesh(nullptr), lightMesh(nullptr), mainCube(nullptr), lightCube(nullptr), testModel(nullptr)
 {
     // Initialize
 }
@@ -79,7 +79,7 @@ Application::~Application()
     delete floorMesh; delete lightMesh;
     delete defaultShader; delete lightShader;
     delete matricesUBO;
-    delete camera; delete colorController; delete inputManager;
+    delete camera; delete colorController; delete inputManager; delete testModel;
     
     glfwTerminate();
 }
@@ -116,11 +116,11 @@ void Application::run()
 
 void Application::setupScene()
 {
-    defaultShader = new Shader("assets/shaders/default.vert", "assets/shaders/default.frag");
+    defaultShader = new Shader("assets/shaders/default.vert", "assets/shaders/test.frag");
     lightShader = new Shader("assets/shaders/light.vert", "assets/shaders/light.frag");
 
     std::string parentDir = std::filesystem::current_path().parent_path().string();
-    Texture2D testTex((parentDir + "/temp-opengl/assets/textures/test.png").c_str(), "diffuse", 0);
+    Texture2D testTex((parentDir + "/temp-opengl/assets/textures/blackTile.png").c_str(), "diffuse", 0);
     std::vector<Texture2D> floorTextures = { testTex };
     std::vector<Texture2D> emptyTex;
 
@@ -140,6 +140,9 @@ void Application::setupScene()
     matricesUBO = new UBO(2 * sizeof(glm::mat4), 0);
     matricesUBO->LinkToShader(defaultShader->getID(), "Matrices", 0);
     matricesUBO->LinkToShader(lightShader->getID(), "Matrices", 0);
+
+    std::string modelPath = parentDir + "/temp-opengl/assets/models/bunny.obj";
+    testModel = new Model(modelPath.c_str());
 
     glViewport(0, 0, setting.getWindowWidth(), setting.getWindowHeight());
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
@@ -178,7 +181,13 @@ void Application::renderloop()
         defaultShader->setVec4("lightColor", lightColor);
         defaultShader->setVec3("lightPos", lightCube->getTransform().getPos());
         defaultShader->setVec3("camPos", camera->getPos());
-        mainCube->Draw(*defaultShader);
+        //mainCube->Draw(*defaultShader);
+
+        glm::mat4 modelMatrix = glm::mat4(1.0f);
+        modelMatrix = glm::scale(modelMatrix, glm::vec3(10.0f));
+        modelMatrix = glm::rotate(modelMatrix, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+        defaultShader->setMat4("model", modelMatrix);
+        testModel->Draw(*defaultShader);
 
         lightShader->use();
         lightShader->setVec4("lightColor", lightColor);
