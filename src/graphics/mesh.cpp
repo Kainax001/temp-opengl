@@ -1,10 +1,16 @@
 #include "mesh.h"
 
+#include <algorithm>
+#include <limits>
+
 Mesh::Mesh(std::vector <Vertex>& vertices, std::vector <GLuint>& indices, std::vector <Texture2D>& textures)
 {
     Mesh::vertices = vertices;
 	Mesh::indices = indices;
 	Mesh::textures = textures;
+	posInfo.centerPos = glm::vec3(0.0f);
+    posInfo.minPos = glm::vec3(std::numeric_limits<float>::max());
+    posInfo.maxPos = glm::vec3(std::numeric_limits<float>::lowest());
 
     VBO VBO(vertices);
     EBO EBO(indices);
@@ -21,6 +27,7 @@ Mesh::Mesh(std::vector <Vertex>& vertices, std::vector <GLuint>& indices, std::v
 	// Unbind all to prevent accidentally modifying them
 	VAO.Unbind();
 	EBO.Unbind();
+	initializePosInfo();
 }
 Mesh::~Mesh() {}
 
@@ -49,3 +56,28 @@ void Mesh::Draw(Shader& shader)
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     VAO.Unbind();
 }
+
+void Mesh::initializePosInfo() {
+	if (vertices.empty()) {
+        posInfo.centerPos = glm::vec3(0.0f);
+        return;
+    }
+
+    for (size_t i = 0; i < vertices.size(); i++)
+    {
+        glm::vec3 pos = vertices[i].position;
+
+        posInfo.minPos.x = std::min(posInfo.minPos.x, pos.x);
+        posInfo.minPos.y = std::min(posInfo.minPos.y, pos.y);
+        posInfo.minPos.z = std::min(posInfo.minPos.z, pos.z);
+
+        posInfo.maxPos.x = std::max(posInfo.maxPos.x, pos.x);
+        posInfo.maxPos.y = std::max(posInfo.maxPos.y, pos.y);
+        posInfo.maxPos.z = std::max(posInfo.maxPos.z, pos.z);
+    }
+
+    posInfo.centerPos = (posInfo.maxPos + posInfo.minPos) / 2.0f;
+}
+glm::vec3 Mesh::getCenter() { return posInfo.centerPos; }
+glm::vec3 Mesh::getMinPos() { return posInfo.minPos; }
+glm::vec3 Mesh::getMaxPos() { return posInfo.maxPos; }

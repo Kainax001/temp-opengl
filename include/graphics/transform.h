@@ -19,6 +19,8 @@ struct TransformData
     float yaw   = 0.0f;
     float pitch = 0.0f;
     float roll  = 0.0f;
+
+    glm::vec3 centerPos = glm::vec3(0.0f);
 };
 
 class Transform
@@ -31,9 +33,11 @@ class Transform
 
     glm::mat4 getModelMatrix();
     glm::vec3 getPos();
+    glm::vec3 getCenterPos();
     void rotateObject(glm::vec3 degrees);
     void translateObject(glm::vec3 newPos);
     void scaleObject(float addScale);
+    void updateCenterPos(glm::vec3 newCenterpos);
 
     private :
     void updateObjectVectors();

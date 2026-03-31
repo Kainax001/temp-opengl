@@ -144,6 +144,8 @@ void Application::setupScene()
     std::string modelPath = parentDir + "/temp-opengl/assets/models/bunny.obj";
     testModel = new Model(modelPath.c_str());
 
+    testModelEntity = new Entity("testModel", testModel, inputManager);
+
     glViewport(0, 0, setting.getWindowWidth(), setting.getWindowHeight());
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
     glEnable(GL_DEPTH_TEST);
@@ -183,11 +185,9 @@ void Application::renderloop()
         defaultShader->setVec3("camPos", camera->getPos());
         //mainCube->Draw(*defaultShader);
 
-        glm::mat4 modelMatrix = glm::mat4(1.0f);
-        modelMatrix = glm::scale(modelMatrix, glm::vec3(10.0f));
-        modelMatrix = glm::rotate(modelMatrix, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-        defaultShader->setMat4("model", modelMatrix);
-        testModel->Draw(*defaultShader);
+        testModelEntity->update(deltaTime);
+        testModelEntity->Draw(*defaultShader);
+        
 
         lightShader->use();
         lightShader->setVec4("lightColor", lightColor);

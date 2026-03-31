@@ -28,6 +28,23 @@ void Model::loadModel(const std::string& path)
     processNode(scene->mRootNode, scene);
 }
 
+glm::vec3 Model::getCenter() {
+    if (meshes.empty()) return glm::vec3(0.0f);
+
+    glm::vec3 globalMin(std::numeric_limits<float>::max());
+    glm::vec3 globalMax(std::numeric_limits<float>::lowest());
+
+    for (size_t i = 0; i < meshes.size(); i++) {
+        glm::vec3 mMin = meshes[i].getMinPos(); 
+        glm::vec3 mMax = meshes[i].getMaxPos();
+
+        globalMin = glm::min(globalMin, mMin);
+        globalMax = glm::max(globalMax, mMax);
+    }
+
+    return (globalMin + globalMax) / 2.0f;
+}
+
 void Model::Draw(Shader& shader) 
 {
     for(unsigned int i = 0; i < meshes.size(); i++)

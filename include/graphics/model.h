@@ -19,10 +19,13 @@ class Model
 
     void loadModel(const std::string& path);
     void Draw(Shader& shader);
+    void setCenter(Mesh targetMesh);
+    glm::vec3 getCenter();
 
     private :
     std::vector<Mesh> meshes;
     std::string directory;
+    glm::vec3 centerPos;
     
     void processNode(aiNode* node, const aiScene* scene);
     Mesh processMesh(aiMesh* mesh, const aiScene* scene);

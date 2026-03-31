@@ -9,6 +9,7 @@ Transform::~Transform() {}
 
 glm::mat4 Transform::getModelMatrix() { return modelMatrix; }
 glm::vec3 Transform::getPos() { return statusInfo.pos; }
+glm::vec3 Transform::getCenterPos() { return statusInfo.centerPos; }
 
 void Transform::update(float deltaTime)
 {
@@ -27,6 +28,9 @@ void Transform::update(float deltaTime)
         if (statusInfo.pitch > 89.0f) statusInfo.pitch = 89.0f;
         if (statusInfo.pitch < -89.0f) statusInfo.pitch = -89.0f;
     }
+
+    if(inputManager->isKeyPressed(GLFW_KEY_Q)) statusInfo.scale += 0.2f;
+    if(inputManager->isKeyPressed(GLFW_KEY_E)) statusInfo.scale -= 0.2f;
 
     updateObjectVectors();
     updateModelMatrix();
@@ -54,6 +58,11 @@ void Transform::scaleObject(float addScale)
     updateModelMatrix();
 }
 
+void Transform::updateCenterPos(glm::vec3 newCenterpos)
+{
+    statusInfo.centerPos = newCenterpos;
+}
+
 void Transform::updateObjectVectors()
 {
     glm::vec3 f;
@@ -75,6 +84,7 @@ void Transform::updateModelMatrix()
     model = glm::rotate(model, glm::radians( statusInfo.roll),   glm::vec3(0.0f, 0.0f, 1.0f));
 
     model = glm::scale(model, statusInfo.scale);
+    model = glm::translate(model, -statusInfo.centerPos);
     
     modelMatrix = model;
 }

@@ -41,6 +41,7 @@ class Application
     Mesh* lightMesh;
     Entity* mainCube;
     Entity* lightCube;
+    Entity* testModelEntity;
     Model* testModel;
 };
 
